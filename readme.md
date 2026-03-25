@@ -1,119 +1,124 @@
-### Create virtual enviroment
+#  Sistema de Gestão para Casa de Apoio
 
-- > python -m venv myvenv
+##  Sobre o Projeto
 
-### Activate virtual enviroment
+Este projeto tem como objetivo gerenciar pessoas, hospedagens e serviços de uma casa de apoio para pacientes em tratamento fora de sua cidade de origem.
 
-- > . myvenv/Scripts/activate
+O sistema permite registrar:
 
-### Install requirements
+* Pessoas (pacientes, acompanhantes, profissionais e voluntários)
+* Check-ins e check-outs
+* Serviços prestados (internos e profissionais)
 
-- > pip install -r requirements.txt
+Os dados coletados auxiliam na geração de relatórios e prestação de contas.
 
-### In production, include enviroment variables
+---
 
-- > set DATABASE_URL=postgres://o.......
+##  Tecnologias Utilizadas
 
-- > set SECRET_KEY=e6=m0rind-)pn+aw......
+* Python 3.x
+* Django
+* Django REST Framework
+* drf-spectacular (Swagger)
+* SQLite (ambiente local)
 
-### Enter project folder
+---
 
-- > cd danielle
+## ⚙️ Como Rodar o Projeto
 
-### Makemigrations and migrate
+### 1. Clonar repositório
 
-- > python manage.py makemigrations
-- > python manage.py migrate
+```bash
+git clone https://github.com/ph-cm/user-management-django-custom-admin.git
+cd user-management-django-custom-admin/danielle
+```
 
-### Create superuser
+### 2. Criar ambiente virtual
 
-- > python manage.py createsuperuser
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
 
-### Run seeds
+### 3. Instalar dependências
 
-- > python manage.py loaddata people/seed/people.json
-- > python manage.py loaddata people/seed/checkins.json
-- > python manage.py loaddata people/seed/home-services.json
-- > python manage.py loaddata people/seed/professional-services.json
+```bash
+pip install -r requirements.txt
+```
 
+### 4. Rodar migrations
 
-### Test and coverage
+```bash
+python manage.py migrate
+```
 
-- > pytest
-- > coverage run -m pytest
-- > coverage html
+### 5. Criar superusuário
 
-### Run the application
+```bash
+python manage.py createsuperuser
+```
 
-- > python manage.py runserver
+### 6. Popular banco com dados de teste
 
-### Rotas
+```bash
+python manage.py seed_data
+```
 
-- Users
-    - `POST /users/` -> Create new user (username,password,email)
-    - `POST /login/` -> Create token (username,password)
-- People
-    - `GET /api/v1/people/` -> List 12 card people.
-    - `POST /api/v1/people/` -> Create new person.
-    - `GET /api/v1/people/<int:id>/` -> List person by id.
-    - `PUT /api/v1/people/<int:id>/` -> Replace all mandatory fields. plus fields in request.
-    - `Patch /api/v1/people/<int:id>/` -> Replace only fields in request.
-    - `Delete /api/v1/people/<int:id>/` -> Delete person by ID
+### 7. Rodar o servidor
 
+```bash
+python manage.py runserver
+```
 
-## Steps done
+---
 
-### Models
-- Create people app
-- Add People app in settings
-- Create the following models:
-    - Base
-    - Person
-    - Checkin
-    - Checkout
-    - HomeServices
-    - ProfessionalServices
-- Add verbose name to models
-- Add help text to models
-- Add blank and null, if necessary
-- Add `__str__` to models
-- Add validators (CPF, CEP, EMAIL, ...)
-- Add formatted_field methods to after deserialization
+##  Acessos do Sistema
 
-### Admin
-- Register model to admin
-- Customize section fields
-- Customize list display
-- Customize list filter
-- Customize search fields
-- Customize inline fields
-- Customize collapse section fields
+* Admin: http://127.0.0.1:8000/admin
+* Swagger: http://127.0.0.1:8000/api/docs/
+* Dashboard: http://127.0.0.1:8000/dashboard
 
-### Settings
-- Add Authentication
-- Add Permission
-- Add Time Zone
-- Add Language
-- Add Cors
-- Add Pagination
+---
 
-## Validations
+## Dashboard
 
-- For each field in models, create custom validations, if necessary
-- Create unit test for all validations above
+O dashboard foi desenvolvido utilizando a arquitetura MVT do Django, apresentando indicadores como:
 
-### Serializers
+* Total de pessoas por tipo
+* Check-ins ativos e encerrados
+* Check-outs realizados
+* Serviços prestados
 
-- Exclude fields if necessary
-- Include fields if necessary
-- Forma
+---
 
-### Views
+##  Melhorias Implementadas
 
-- Add class methods (choose right)
-- Add view custom rules
-- Add filters
-- Add search
-- Add ordering
-- Add pagination
-- Add authentications, authorization, permissions
+### 1. Classificação de Pessoas
+
+Adição de tipos de usuário (paciente, acompanhante, profissional e voluntário).
+
+### 2. Controle de Check-in Ativo
+
+Restrição para impedir múltiplos check-ins ativos para a mesma pessoa.
+
+### 3. Encerramento Automático
+
+Ao criar um check-out, o sistema automaticamente encerra o check-in associado.
+
+---
+
+##  Seed de Dados
+
+Foi implementada uma management command (`seed_data`) para popular o banco com dados realistas para testes e demonstração.
+
+---
+
+##  Documentação da API
+
+A API foi documentada utilizando **drf-spectacular**, disponível via Swagger.
+
+---
+
+##  Considerações Finais
+
+O projeto foi refatorado a partir de uma base legada, tornando-se funcional, estruturado e preparado para evolução futura.
