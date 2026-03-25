@@ -1,7 +1,7 @@
 from django.db import models
 from .base import BaseModel
 from .person import Person
-
+from django.core.exceptions import ValidationError
 
 class Checkin(BaseModel):
     class Meta:
@@ -65,6 +65,22 @@ class Checkin(BaseModel):
     @property
     def person_name(self):
         return self.person.name
+    
+    def clean(self):
+        if self.active:
+            existing_active = self.__class__.objects.filter(person=self.person, active=True)
+
+            if self.pk:
+                existing_active = existing_active.exclude(pk=self.pk)
+
+            if existing_active.exists():
+                raise ValidationError({
+                    "person": "Esta pessoa já possui um check-in ativo."
+                })
+                
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.person.name + " " + self.created_at.strftime(
