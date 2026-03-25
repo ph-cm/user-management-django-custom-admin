@@ -11,12 +11,12 @@ admin.site.index_title = "Bem vindo! "
 
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'born_date')
-    list_filter = ['gender', 'state']
+    list_display = ('name','person_type', 'born_date')
+    list_filter = ['gender', 'person_type', 'state']
     search_fields = ['name']
     fieldsets = [('Identificação', {
         'fields': [
-            'name', 'mother_name', 'born_date', 'cpf', ('rg', 'rg_ssp'),
+            'name', 'person_type', 'mother_name', 'born_date', 'cpf', ('rg', 'rg_ssp'),
             'gender'
         ]
     }),

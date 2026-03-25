@@ -147,8 +147,22 @@ class Person(BaseModel):
                                      help_text='Exemplo: 999999999',
                                      verbose_name='Tel. p/ mensagem',
                                      validators=[check_phone])
+    
+    PERSON_TYPE_CHOICES = [
+            ("patient", "Paciente"),
+            ("companion", "Acompanhante"),
+            ("professional", "Profissional"),
+            ("volunteer", "Voluntário"),
+            ]
+
+    person_type = models.CharField(
+        max_length=20,
+        choices=PERSON_TYPE_CHOICES,
+        default="patient",
+        verbose_name="Tipo de pessoa",
+    )
     observation = models.TextField(max_length=600,
-                                   blank=True,
+                                    blank=True,
                                    null=True,
                                    verbose_name='Observação')
 
