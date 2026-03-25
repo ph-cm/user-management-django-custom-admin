@@ -56,6 +56,18 @@ class Checkin(BaseModel):
     active = models.BooleanField(default=True,
                                  blank=True,
                                  verbose_name="Ativo")
+    
+    STATUS_CHOICES = [
+        ("open", "Aberto"),
+        ("closed", "Encerrado"),
+    ]
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default="open",
+        verbose_name="Status",
+    )
 
     @property
     def companion_name(self):
@@ -79,6 +91,8 @@ class Checkin(BaseModel):
                 })
                 
     def save(self, *args, **kwargs):
+        if self.active and not self.status:
+            self.status = "open"
         self.full_clean()
         super().save(*args, **kwargs)
 

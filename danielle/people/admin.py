@@ -12,7 +12,7 @@ admin.site.index_title = "Bem vindo! "
 
 class PersonAdmin(admin.ModelAdmin):
     list_display = ('name','person_type', 'born_date')
-    list_filter = ['gender', 'person_type', 'state']
+    list_filter = ['gender',  'state']
     search_fields = ['name']
     fieldsets = [('Identificação', {
         'fields': [
@@ -39,8 +39,8 @@ class PersonAdmin(admin.ModelAdmin):
 
 
 class CheckinAdmin(admin.ModelAdmin):
-    list_display = ('person', 'reason', 'created_at')
-    list_filter = ['reason']
+    list_display = ('person', 'reason', 'created_at', 'status', 'active', 'created_at')
+    list_filter = ['reason', 'status', 'active']
     search_fields = ['person']
     fieldsets = [('Identificação', {
         'fields': ['person', 'reason']
@@ -60,7 +60,12 @@ class CheckinAdmin(admin.ModelAdmin):
 
 
 class CheckoutAdmin(admin.ModelAdmin):
-    list_display = ('checkin', 'created_at')
+    list_display = ('checkin', 'person_name', 'created_at')
+    search_fields = ['checkin__person__name']
+
+    def person_name(self, obj):
+        return obj.checkin.person.name
+    person_name.short_description = 'Pessoa'
 
 
 class HomeServicesAdmin(admin.ModelAdmin):

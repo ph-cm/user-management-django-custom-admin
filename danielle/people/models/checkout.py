@@ -12,6 +12,15 @@ class Checkout(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name="Fechado em")
 
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_new and self.checkin.active:
+            self.checkin.active = False
+            self.checkin.status = "closed"
+            self.checkin.save(update_fields=["active", "status"])
+
     def __str__(self):
         return self.checkin.person.name + " " + self.created_at.strftime(
             "%d/%m/%Y")
