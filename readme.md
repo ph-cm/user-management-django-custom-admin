@@ -24,7 +24,7 @@ Os dados coletados auxiliam na geração de relatórios e prestação de contas.
 
 ---
 
-## ⚙️ Como Rodar o Projeto
+##  Como Rodar o Projeto
 
 ### 1. Clonar repositório
 
