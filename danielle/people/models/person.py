@@ -92,7 +92,7 @@ class Person(BaseModel):
                             blank=True,
                             null=True,
                             verbose_name="Cidade",
-                            validators=[check_city])
+                            )
     postal_code = models.CharField(max_length=15,
                                    blank=True,
                                    null=True,
