@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 #from pathlib import Path
 import os
-import django_heroku
-import dj_database_url
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,10 +29,7 @@ if os.environ.get('SECRET_KEY'):
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "*",
-    #'*.herokuapp.com', "appapoio.herokuapp.com", "localhost", "127.0.0.1"
-]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 # Application definition
 
@@ -102,21 +98,11 @@ WSGI_APPLICATION = 'danielle.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'danielledb',
-        'USER': 'root',
-        'PASSWORD': 'root1234',
-        'TEST': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'test_danielledb'
-        },
-    },
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
 }
-
-db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-if db_from_env:
-    DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -156,4 +142,4 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 
-django_heroku.settings(locals())  # Put it in the last line.
+
