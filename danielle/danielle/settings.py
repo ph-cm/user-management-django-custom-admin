@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'people',
     'utils',
+    'drf_spectacular',
 ]
 
 REST_FRAMEWORK = {
@@ -58,7 +59,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES':
     ('rest_framework.permissions.IsAuthenticated', ),
     'DEFAULT_FILTER_BACKENDS':
-    ['django_filters.rest_framework.DjangoFilterBackend']
+    ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 MIDDLEWARE = [
@@ -141,5 +143,11 @@ USE_L10N = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API Casa de Apoio',
+    'DESCRIPTION': 'Documentação da API para gestão de pessoas e atendimentos',
+    'VERSION': '1.0.0',
+}
 
 
